@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>HandJS: Sample</title>
+
+    <script src="Hand.js"></script>
+</head>
+<body>
+    <div>
+        <canvas id="canvas" width="720" height="480"></canvas> <br />
+        <label id="gesture" style="font-size:large; font-weight:bold;"></label> <br />
+		<label id="aspect"  style="font-size:large"></label>
+    </div>
+
+    <script>
+		if(HandJS.isBrowserSupported() == false)
+			alert("Browser not supported.");
+	
+        var label = document.getElementById("gesture");
+		var aspect = document.getElementById("aspect");
+
+        var DEBUG = false;
+        var handJS = new HandJS((gType, p) => label.innerHTML = `${gType}, (${p.x.toFixed(2)}, ${p.y.toFixed(2)})`);
+		
+		//optional
+		handJS.onResize = aspectRatio => aspect.innerHTML = aspectRatio.toFixed(2);
+		
+        handJS.start()
+		      .then(() => label.innerHTML = "HandJS started!")
+			  .catch(err => alert(err.name));
+
+        //those properties are optional and can be set any-time
+        handJS.displayCanvas = document.getElementById("canvas");
+        handJS.flipHorizontal = true;
+        //handJS.flipVertical = false;
+
+        //callback function is optional
+        /*handJS.stop()
+				.then(() => label.innerHTML = "HandJS stopped!");
+		*/
+    </script> 
+
+</body>
+</html>
